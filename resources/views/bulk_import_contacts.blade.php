@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+     <!-- Livewire Styles -->
+    @livewireStyles
 </head>
 <body>
     <div class="container mt-5">
@@ -64,43 +66,11 @@
                 </div>
             </div>
             @endif
-
-        <!-- Data Table -->
-        <div class="card">
-            <div class="card-body">
-                <table id="contactsTable" class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th class="text-center">ID</th>
-                            <th class="text-center">Name</th>
-                            <th class="text-center">Phone</th>
-                            <th class="text-center">Created At</th>
-                            <th class="text-center">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach(($contacts ?? []) as $key => $contact) 
-                        <tr>
-                            <td class="text-center">{{++$key}}</td>
-                            <td class="text-center">{{$contact->name}}</td>
-                            <td class="text-center">{{$contact->phone}}</td>
-                            <td class="text-center">{{date('d F, Y h:i A',strtotime($contact->created_at))}}</td>
-                            <td class="text-center">
-                                <button class="btn btn-warning btn-sm me-2">
-                                    <i class="fas fa-edit"></i> Edit
-                                </button>
-                                <button class="btn btn-danger btn-sm">
-                                    <i class="fas fa-trash"></i> Delete
-                                </button>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
+            <livewire:contacts-table />
     </div>
 
+    <!-- Livewire Scripts -->
+    @livewireScripts 
     <!-- Bootstrap 5 JS and Dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
@@ -109,25 +79,27 @@
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
     <script>
-        $(document).ready(function() {
-            // Initialize DataTable
-            $('#contactsTable').DataTable({
+    $(document).ready(function() {
+        // Function to initialize DataTable
+        function initDataTable() {
+            if ($.fn.DataTable.isDataTable("#contactsTable")) {
+                $("#contactsTable").DataTable().destroy();
+            }
+            $("#contactsTable").DataTable({
                 pageLength: 10,
+                responsive: true
             });
+        }
 
-            // Handle form submission
-            // $('#uploadForm').on('submit', function(event) {
-            //     event.preventDefault();
-            //     const fileInput = document.getElementById('fileInput');
-            //     if (fileInput.files.length > 0) {
-            //         const file = fileInput.files[0];
-            //         alert(`File "${file.name}" uploaded successfully!`);
-            //         // Add logic to process the file and update the table
-            //     } else {
-            //         alert('Please select a file to upload.');
-            //     }
-            // });
+        initDataTable();
+
+        // Reinitialize DataTable after Livewire updates
+        Livewire.on("refreshTable", function() {
+            setTimeout(() => { 
+                initDataTable(); 
+            }, 100);
         });
-    </script>
+    });
+</script>
 </body>
 </html>
