@@ -18,6 +18,7 @@ class ContactsTable extends Component
         if ($contact) {
             $contact->delete();
             $this->dispatch('refreshTable');
+            $this->dispatch('success', message: "Contact deleted successfully!");
         }
     }
 

@@ -1,12 +1,14 @@
 <div>
 <!-- Data Table -->
     <div class="card">
-        @if (session()->has('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        @endif
+        <div x-data="{ open: false, message: '' }" 
+            x-cloak 
+            @success.window="open = true; message = $event.detail.message; setTimeout(() => open = false, 3000)">
+            <div x-show="open" x-text="message" class="alert alert-success"></div>
+        </div>
+        <style>
+            [x-cloak] { display: none !important; }
+        </style>
         <div class="card-body">
             <table id="contactsTable" class="table table-striped table-bordered">
                 <thead>
