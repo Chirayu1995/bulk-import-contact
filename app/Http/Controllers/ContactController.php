@@ -50,11 +50,26 @@ class ContactController extends Controller
 
         $errors = [];
         $newContacts = [];
-
         foreach ($contacts['contact'] as $contact) {
+            // Validate phone number and name existence
+            if ((empty($contact['phone']) || !isset($contact['phone'])) && (empty($contact['name']) || !isset($contact['name']))) {
+                continue;
+            }
+
+            // Validate name existence
+            if (!isset($contact['name']) || empty($contact['name'])) {
+                $errors[] = "Phone number {$contact['phone']} has no associated name in the uploaded XML file.";
+                continue;
+            }
+
             // Validate phone number existence
             if (!isset($contact['phone']) || empty($contact['phone'])) {
-                $errors[] = "Each <contact> must have a <phone> tag.";
+                $errors[] = "Contact Name {$contact['name']} must have a phone number inside <phone> tag.";
+                continue;
+            }
+
+            if (!preg_match('/^[\d\s+\-]+$/',$contact['phone'])) {
+                $errors[] = "Contact name {$contact['name']} having contact number {$contact['phone']} is invalid, it can contain only space, -, + symbol and 0-9 digits in it.";
                 continue;
             }
 
