@@ -3,7 +3,7 @@
     <div class="card">
         <div x-data="{ open: false, message: '' }" 
             x-cloak 
-            @success.window="open = true; message = $event.detail.message; setTimeout(() => open = false, 3000)">
+            @success.window="open = true; message = $event.detail.message; setTimeout(() => open = false,1500)">
             <div x-show="open" x-text="message" class="alert alert-success"></div>
         </div>
         <style>

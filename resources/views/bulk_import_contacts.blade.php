@@ -21,7 +21,7 @@
         <!-- File Upload Section -->
         <div class="card mb-4">
             <div class="card-body">
-                <form id="uploadForm" action="{{ route('contacts.create') }}" method="POST" enctype="multipart/form-data">
+                <form id="uploadForm" action="{{ route('contacts.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1 me-3">
