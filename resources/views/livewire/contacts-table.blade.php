@@ -3,7 +3,7 @@
     <div class="card">
         <div x-data="{ open: false, message: '' }" 
             x-cloak 
-            @success.window="open = true; message = $event.detail.message; setTimeout(() => open = false,1500)">
+            @success.window="open = true; message = $event.detail.message; setTimeout(() => open = false,2000)">
             <div x-show="open" x-text="message" class="alert alert-success"></div>
         </div>
         <style>
@@ -24,16 +24,44 @@
                     @foreach(($contacts ?? []) as $key => $contact) 
                     <tr>
                         <td class="text-center">{{++$key}}</td>
-                        <td class="text-center">{{$contact->name}}</td>
-                        <td class="text-center">{{$contact->phone}}</td>
-                        <td class="text-center">{{date('d F, Y h:i A',strtotime($contact->created_at))}}</td>
+
+                        <!-- Name Field -->
                         <td class="text-center">
-                            <button wire:click="editContact({{ $contact->id }})" class="btn btn-warning btn-sm me-2">
-                                <i class="fas fa-edit"></i> Edit
-                            </button>
-                            <button wire:click="deleteContact({{ $contact->id }})" class="btn btn-danger btn-sm">
-                                <i class="fas fa-trash"></i> Delete
-                            </button>
+                            @if($editingId === $contact->id)
+                                <input type="text" wire:model="editingName" class="form-control">
+                            @else
+                                {{$contact->name}}
+                            @endif
+                        </td>
+
+                        <!-- Phone Field -->
+                        <td class="text-center">
+                            @if($editingId === $contact->id)
+                                <input type="text" wire:model="editingPhone" class="form-control">
+                            @else
+                                {{$contact->phone}}
+                            @endif
+                        </td>
+
+                        <td class="text-center">{{date('d F, Y h:i A',strtotime($contact->created_at))}}</td>
+                        
+                        <!-- Action Buttons -->
+                        <td class="text-center">
+                            @if($editingId === $contact->id)
+                                <button wire:click="saveContact({{ $contact->id }})" class="btn btn-success btn-sm me-2">
+                                    <i class="fas fa-check"></i> Save
+                                </button>
+                                <button wire:click="cancelEdit" class="btn btn-secondary btn-sm">
+                                    <i class="fas fa-times"></i> Cancel
+                                </button>
+                            @else
+                                <button wire:click="editContact({{ $contact->id }})" class="btn btn-warning btn-sm me-2">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <button wire:click="deleteContact({{ $contact->id }})" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            @endif
                         </td>
                     </tr>
                     @endforeach
