@@ -12,7 +12,7 @@ Steps to run project :
 1. Clone the repository
 2. Setup the project
 3. Create a database
-4. Configure .env file (you can rename .env.example with .env and configure the database inside it)
+4. Configure .env file (you can rename .env.example with .env and configure the database inside it) and then clear cache using command "php artisan config:cache"
 4. Run migrations
 5. Run localhost development server (php artisan serve)
 6. Download the sample by clicking on download xml sample shown on homepage.
