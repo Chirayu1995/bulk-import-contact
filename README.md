@@ -5,7 +5,7 @@ Bulk Import XML Contacts
 Notes:
 Duplicates are not allowed for exact string match phone number.
 Invalid format of xml not allowed.
-Contacts xml file format should be same as provided in sample xml.
+Contacts xml file should be in same format as provided in sample xml.
 
 Steps to run project :
 1. Clone the repository
