@@ -3,6 +3,7 @@ Bulk Import XML Contacts
 
 
 Notes:
+Contacts having xml error or invalid data will be skipped.
 Duplicates are not allowed for exact string match phone number.
 Invalid format of xml not allowed.
 Contacts xml file should be in same format as provided in sample xml.

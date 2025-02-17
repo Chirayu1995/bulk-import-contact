@@ -88,16 +88,25 @@ class ContactController extends Controller
             ];
         }
 
-        // If there are errors, return them
-        if (!empty($errors)) {
-            return back()->withErrors(['file' => implode(' ', $errors)])->withInput();
-        }
-
         // Insert new contacts
+        $insertSuccess = false;
         if (!empty($newContacts)) {
             Contact::insert($newContacts);
+            $insertSuccess = true;
         }
 
+        // If there are errors, return them
+        if (!empty($errors)) {
+            if($insertSuccess)
+            {
+                return back()
+                ->with('success', 'Contacts imported in bulk successfully.') // Show success message first
+                ->withErrors(['file' => implode(' ', $errors)]) // Then show errors
+                ->withInput(); // Keep the input data
+            }
+            return back()->withErrors(['file' => implode(' ', $errors)])->withInput();
+        }
+        
         return back()->with('success', 'Contacts imported in bulk successfully.');
     }
 }

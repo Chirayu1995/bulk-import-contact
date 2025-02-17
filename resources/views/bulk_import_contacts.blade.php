@@ -56,7 +56,7 @@
             @if ($errors->any())
             <div class="card-body mb-4">
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <h5 class="ps3">Errors in XML file</h5>
+                    <h5 class="ps3">List of skipped contacts due to error or invalid data :</h5>
                     <hr>
                     @foreach ($errors->all() as $error)
                         @foreach (explode('.', $error) as $msg)
