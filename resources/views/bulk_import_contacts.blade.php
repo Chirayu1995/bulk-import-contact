@@ -28,10 +28,13 @@
                             <label for="fileInput" class="form-label">Choose Contacts XML File</label>
                             <input class="form-control" type="file" name="file" id="fileInput" accept=".xml" required>
                         </div>
-                        <div>
+                        <div class="d-flex gap-2">
                             <button type="submit" class="btn btn-primary align-self-start mt-4">
                                 <i class="fas fa-upload"></i> Upload and Submit
                             </button>
+                            <a href="{{ asset('contacts.xml') }}" class="btn btn-success align-self-start mt-4" download>
+                                <i class="fas fa-download"></i> Download Sample
+                            </a>
                         </div>
                     </div>
                 </form>
