@@ -33,7 +33,7 @@
                                 <i class="fas fa-upload"></i> Upload and Submit
                             </button>
                             <a href="{{ asset('contacts.xml') }}" class="btn btn-success align-self-start mt-4" download>
-                                <i class="fas fa-download"></i> Download Sample
+                                <i class="fas fa-download"></i> Download XML Sample
                             </a>
                         </div>
                     </div>
