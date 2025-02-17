@@ -1,10 +1,15 @@
 <div>
-<!-- Data Table -->
     <div class="card">
-        <div x-data="{ open: false, message: '' }" 
+        <div x-data="{ open: false, message: '', type: '' }" 
             x-cloak 
-            @success.window="open = true; message = $event.detail.message; setTimeout(() => open = false,2000)">
-            <div x-show="open" x-text="message" class="alert alert-success"></div>
+            @success.window="open = true; message = $event.detail.message; type = 'success'; setTimeout(() => open = false, 3000)"
+            @warning.window="open = true; message = $event.detail.message; type = 'warning'; setTimeout(() => open = false, 3000)">
+            <div x-show="open" x-text="message" 
+                :class="{
+                    'alert alert-success': type === 'success',
+                    'alert alert-danger': type === 'warning'
+                }">
+            </div>
         </div>
         <style>
             [x-cloak] { display: none !important; }
@@ -25,7 +30,6 @@
                     <tr>
                         <td class="text-center">{{++$key}}</td>
 
-                        <!-- Name Field -->
                         <td class="text-center">
                             @if($editingId === $contact->id)
                                 <input type="text" wire:model="editingName" class="form-control">
@@ -34,10 +38,9 @@
                             @endif
                         </td>
 
-                        <!-- Phone Field -->
                         <td class="text-center">
                             @if($editingId === $contact->id)
-                                <input type="text" wire:model="editingPhone" class="form-control">
+                                <input type="text" wire:model="editingPhone" class="form-control" oninput="this.value = this.value.replace(/[^0-9+\-\s]/g, '')">
                             @else
                                 {{$contact->phone}}
                             @endif
@@ -45,7 +48,6 @@
 
                         <td class="text-center">{{date('d F, Y h:i A',strtotime($contact->created_at))}}</td>
                         
-                        <!-- Action Buttons -->
                         <td class="text-center">
                             @if($editingId === $contact->id)
                                 <button wire:click="saveContact({{ $contact->id }})" class="btn btn-success btn-sm me-2">

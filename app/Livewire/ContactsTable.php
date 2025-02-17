@@ -39,7 +39,7 @@ class ContactsTable extends Component
                 if ($exists) {
                     $this->editingId = null;
                     $this->dispatch('refreshTable');
-                    $this->dispatch('error', message: "Contact with this phone already exists! Duplicates not allowed.");
+                    $this->dispatch('warning', message: "Contact with this phone already exists! Duplicates not allowed.");
                     return;
                 }
             }
